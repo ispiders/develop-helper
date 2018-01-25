@@ -1,0 +1,30 @@
+<div>
+    Conditions you make:
+
+    <div>
+        {{#each selectedConditions as |condition|}}
+            {{condition}}
+        {{/each}}
+    </div>
+
+    {{#if result}}
+    <div>
+        you should use: <span style="color: red;">{{result.type}}</span>
+    </div>
+    {{/if}}
+</div>
+
+<div>
+    <div>
+        Which action do you want to take and do you have the param data?
+    </div>
+    <div>
+        {{#each possibleConditions as |condition|}}
+            <button {{action "selectCondition" condition}}>{{condition}}</button>
+        {{/each}}
+    </div>
+</div>
+
+<div>
+    <button {{action "reset"}}>reset</button>
+</div>
