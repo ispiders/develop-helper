@@ -1,14 +1,18 @@
 import Component from '@ember/component';
 import {computed, observer} from '@ember/object';
-import {getFlattedPossibles, filterPossibles} from 'restful-api/utils/restful-helper';
+import {filterPossibles} from 'restful-api/utils/restful-helper';
 
-const POSSIBLEs = getFlattedPossibles();
+const tips = {
+    '0': '首先请判断接口的操作类型',
+    '1': '接口可能影响多条记录还是只会影响单条记录',
+    '2': '能明确的提供所要操作的记录iD吗'
+};
 
 export default Component.extend({
 
     possibleConditions: computed('selectedConditions.[]', 'possibles.[]', function () {
 
-        let level = this.get('selectedConditions.length');
+        let level = this.get('level');
 
         return this.get('possibles').reduce(function (ret, item) {
 
@@ -20,6 +24,18 @@ export default Component.extend({
 
             return ret;
         }, []);
+    }),
+
+    level: computed.readOnly('selectedConditions.length'),
+
+    levelTips: computed('level', 'result', function () {
+
+        if (!this.get('result')) {
+            return tips[this.get('level')];
+        }
+        else {
+            return '以下是根据你提供的信息给出的接口规范';
+        }
     }),
 
     selectedConditions: computed(function () {
@@ -42,9 +58,13 @@ export default Component.extend({
         }
     }),
 
+    restAdapterMethodDoc: computed('result.type', function () {
+
+        return 'http://devdocs.io/ember/classes/ds.restadapter/methods#' + this.get('result.type');
+    }),
+
     done: function (target) {
 
-        console.log(target)
         this.set('result', target);
     },
 

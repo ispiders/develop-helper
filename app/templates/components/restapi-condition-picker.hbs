@@ -1,30 +1,46 @@
 <div>
-    Conditions you make:
-
+    <p>
+        此工具是为了方便前后端开发和对接 REST api 接口，提供一种对接口的分析思路.
+    </p>
+    <p>
+        最多判断三个条件来决定接口的具体类型：C|U|R|D？ single|multi？ id|noid？
+    </p>
+    <p>
+        基本所有类型接口都能通过这几个条件来分类。
+    </p>
+</div>
+<div>
     <div>
-        {{#each selectedConditions as |condition|}}
-            {{condition}}
-        {{/each}}
+        {{levelTips}} <button {{action "reset"}}>reset</button>
     </div>
+    <div>
+        <ul>
+        {{#each possibleConditions as |condition|}}
+            <li style="margin-bottom: 5px;" {{action "selectCondition" condition}}><button>{{{condition-lang condition}}}</button></li>
+        {{/each}}
+        </ul>
+    </div>
+</div>
+
+<div>
+    API parameters:
+
+    <p>
+        {{#each selectedConditions as |condition|}}
+            <<span style="color: red">{{condition}}</span>
+        {{/each}}
+
+        {{input type="text" value=modelName placeholder="可以在此输入模型名"}}
+    </p>
 
     {{#if result}}
-    <div>
-        you should use: <span style="color: red;">{{result.type}}</span>
-    </div>
+        <p>
+            Emberjs adapter method:
+            <a href="{{restAdapterMethodDoc}}" target="_blank"><span style="color: red;">{{result.type}}</span></a>
+        </p>
+
+        <p>
+            Url format: {{rest-adapter-url model=result modelName=modelName}}
+        </p>
     {{/if}}
-</div>
-
-<div>
-    <div>
-        Which action do you want to take and do you have the param data?
-    </div>
-    <div>
-        {{#each possibleConditions as |condition|}}
-            <button {{action "selectCondition" condition}}>{{condition}}</button>
-        {{/each}}
-    </div>
-</div>
-
-<div>
-    <button {{action "reset"}}>reset</button>
 </div>
