@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'restful-api',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -44,6 +44,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.rootURL = '/blog/ember-restapi-helper/';
     // here you can enable a production-specific feature
   }
 
